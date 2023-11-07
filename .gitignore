@@ -2,3 +2,5 @@ node_modules
 requests
 .replit
 replit.nix
+.env
+
