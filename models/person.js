@@ -7,8 +7,21 @@ mongoose.set('strictQuery',false)
 mongoose.connect(MONGODB_URI).then(result => console.log("success")).catch(error => console.log("failure"))
 
 const phoneBookSchema = new mongoose.Schema({
-    name: String,
-    number: String,
+    name: {
+      type: String, 
+      minLength: 3,
+      required: true
+    },
+    number: {
+      type: String,
+      validate: {
+        validator: function(v) {
+          return /^(?:\d{2,3}-\d{6,}|[1-9]\D{7,})$/.test(v);
+        },
+        message: props => `${props.value} is not a valid phone number!`
+      },
+      required: [true, 'User phone number required']
+    }
   })
 
 phoneBookSchema.set('toJSON', {
